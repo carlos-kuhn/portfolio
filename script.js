@@ -1,7 +1,7 @@
-// Portfolio Scripts - Smooth scrolling and interactive elements
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
+    // Smooth scrolling con compensación exacta para el header fijo
+    const headerHeight = document.querySelector('header').offsetHeight;
+    
     document.querySelectorAll('header nav a').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -10,83 +10,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (targetSection) {
                 window.scrollTo({
-                    top: targetSection.offsetTop - 70, // Account for fixed header
+                    top: targetSection.offsetTop - headerHeight,
                     behavior: 'smooth'
                 });
             }
         });
     });
 
-    // Add animation on scroll using Intersection Observer
+    // Nuevo sistema de animación por scroll (Intersection Observer) con delays escalonados
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
-    const animateOnScroll = (elements, animationClass) => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add(animationClass);
-                    observer.unobserve(entry.target);
+    // Preparamos los elementos añadiendo la clase base para animación
+    const elementsToAnimate = document.querySelectorAll('.skill-card, .project-card, .education-card, .timeline-item');
+    elementsToAnimate.forEach(el => el.classList.add('reveal-element'));
+
+    const fadeInObserver = new IntersectionObserver((entries) => {
+        // Agrupamos las entradas que se están intersectando al mismo tiempo
+        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+        
+        intersectingEntries.forEach((entry, index) => {
+            // Aplicamos un retraso escalonado (stagger effect) basado en el índice
+            setTimeout(() => {
+                entry.target.classList.add('visible');
+            }, index * 100); // 100ms de diferencia entre cada aparición
+            
+            fadeInObserver.unobserve(entry.target);
+        });
+    }, observerOptions);
+
+    elementsToAnimate.forEach(el => fadeInObserver.observe(el));
+
+    // Active class updater optimizado
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (scrollTimeout) {
+            window.cancelAnimationFrame(scrollTimeout);
+        }
+        
+        scrollTimeout = window.requestAnimationFrame(function() {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPosition = window.scrollY + headerHeight + 50;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                const navLink = document.querySelector(`header nav a[href="#${sectionId}"]`);
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('header nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    if (navLink) {
+                        navLink.classList.add('active');
+                    }
                 }
             });
-        }, observerOptions);
-
-        elements.forEach(el => observer.observe(el));
-    };
-
-    // Animate cards when they come into view
-    animateOnScroll(document.querySelectorAll('.skill-card'), 'card-visible');
-    animateOnScroll(document.querySelectorAll('.project-card'), 'card-visible');
-    animateOnScroll(document.querySelectorAll('.education-card'), 'card-visible');
-    animateOnScroll(document.querySelectorAll('.course-item'), 'course-visible');
-    animateOnScroll(document.querySelectorAll('.timeline-item'), 'timeline-visible');
-
-    // Add active class to navigation link based on scroll position
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section[id]');
-
-        sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
-            const sectionTop = section.offsetTop - 150;
-            const sectionId = section.getAttribute('id');
-            const navLink = document.querySelector(`header nav a[href="#${sectionId}"]`);
-
-            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-                document.querySelectorAll('header nav a').forEach(link => {
-                    link.classList.remove('active');
-                });
-                if (navLink) {
-                    navLink.classList.add('active');
-                }
-            }
         });
     });
-
-    // Simple card animation when added to DOM
-    const fadeInAnimation = () => {
-        const animatedElements = document.querySelectorAll('.card-visible, .timeline-visible, .course-visible');
-        animatedElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            observer.observe(el);
-        });
-    };
-
-    // Run animations after a short delay to ensure CSS is applied
-    setTimeout(fadeInAnimation, 100);
-
-    console.log('Portfolio loaded successfully!');
 });
