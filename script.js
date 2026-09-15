@@ -2,13 +2,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling con compensación exacta para el header fijo
     const headerHeight = document.querySelector('header').offsetHeight;
     
-    document.querySelectorAll('header nav a').forEach(link => {
+    // Selecciona todos los enlaces internos que comiencen con #
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
+            if (targetId === '#') return; // Evitar errores con enlaces vacíos
+            
             const targetSection = document.querySelector(targetId);
 
             if (targetSection) {
+                e.preventDefault();
                 window.scrollTo({
                     top: targetSection.offsetTop - headerHeight,
                     behavior: 'smooth'
@@ -17,25 +20,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Nuevo sistema de animación por scroll (Intersection Observer) con delays escalonados
+    // Sistema de animación por scroll con delays escalonados
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
-    // Preparamos los elementos añadiendo la clase base para animación
-    const elementsToAnimate = document.querySelectorAll('.skill-card, .project-card, .education-card, .timeline-item');
+    // Preparamos los elementos añadiendo la clase base (incluye todas las cartas estandarizadas)
+    const elementsToAnimate = document.querySelectorAll('.skill-card, .project-card, .education-card, .timeline-item, .contact-card');
     elementsToAnimate.forEach(el => el.classList.add('reveal-element'));
 
     const fadeInObserver = new IntersectionObserver((entries) => {
-        // Agrupamos las entradas que se están intersectando al mismo tiempo
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
         
         intersectingEntries.forEach((entry, index) => {
-            // Aplicamos un retraso escalonado (stagger effect) basado en el índice
             setTimeout(() => {
                 entry.target.classList.add('visible');
-            }, index * 100); // 100ms de diferencia entre cada aparición
+            }, index * 100); 
             
             fadeInObserver.unobserve(entry.target);
         });
