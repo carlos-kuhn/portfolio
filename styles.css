@@ -97,6 +97,7 @@ header nav a:hover, header nav a.active {
     margin-bottom: 1rem;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
+    background-clip: text; /* Standard property added */
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
 }
@@ -207,6 +208,7 @@ header nav a:hover, header nav a.active {
     margin-bottom: 1rem;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
+    background-clip: text; /* Standard property added */
     -webkit-text-fill-color: transparent;
     font-family: monospace;
     font-weight: bold;
@@ -354,6 +356,7 @@ header nav a:hover, header nav a.active {
     font-weight: 700;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
+    background-clip: text; /* Standard property added */
     -webkit-text-fill-color: transparent;
 }
 
@@ -415,6 +418,33 @@ header nav a:hover, header nav a.active {
     margin-bottom: 0.3rem;
     font-weight: 600;
 }
+
+/* =========================================
+   DISEÑO PARA EDUCACIÓN ÍTEM ÚNICO (SIN TIMELINE)
+   ========================================= */
+
+.single-item-header {
+    margin-bottom: 1.5rem;
+}
+
+.education-single-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.course-name {
+    font-size: 1.25rem;
+    color: var(--text-main);
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.education-single-info .period {
+    margin-bottom: 0;
+}
+
 
 /* Ajuste móvil extra */
 @media (max-width: 768px) {
