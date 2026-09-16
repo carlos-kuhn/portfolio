@@ -1,4 +1,3 @@
-/* Variables de diseño moderno */
 :root {
     --bg-main: #0b0f19;
     --bg-card: #151b2b;
@@ -9,7 +8,6 @@
     --gradient-brand: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +22,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Typography & Headings */
 .section h2 {
     font-size: 2.5rem;
     text-align: center;
@@ -72,7 +69,6 @@ header nav a:hover, header nav a.active {
     text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
 }
 
-/* Hero Section - Fondo llamativo automático */
 .hero {
     height: 100vh;
     display: flex;
@@ -97,7 +93,7 @@ header nav a:hover, header nav a.active {
     margin-bottom: 1rem;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
-    background-clip: text; /* Standard property added */
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
 }
@@ -127,7 +123,6 @@ header nav a:hover, header nav a.active {
     box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
 }
 
-/* Sections Global */
 .section {
     padding: 7rem 2rem 5rem;
     max-width: 1100px;
@@ -147,8 +142,6 @@ header nav a:hover, header nav a.active {
 /* =========================================
    DISEÑO ESTANDARIZADO DE CARTAS Y GRILLAS
    ========================================= */
-
-/* Todas las grillas ocupan el ancho total permitido y calculan sus cartas dinámicamente */
 .skills-grid, .projects-grid, .timeline, .education-grid, .contact-grid {
     width: 100%;
     display: grid;
@@ -167,7 +160,6 @@ header nav a:hover, header nav a.active {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
-/* Mismo fondo, bordes, padding y animaciones para TODAS las cartas */
 .skill-card, .timeline-item, .project-card, .education-card, .contact-card {
     background: linear-gradient(145deg, var(--bg-card) 0%, rgba(30, 27, 75, 0.3) 100%);
     border: 1px solid rgba(139, 92, 246, 0.2);
@@ -176,6 +168,7 @@ header nav a:hover, header nav a.active {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(139, 92, 246, 0.05);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
     display: flex;
+    text-align: justify;
     flex-direction: column;
     position: relative;
     overflow: hidden;
@@ -193,7 +186,6 @@ header nav a:hover, header nav a.active {
     font-size: 1.3rem;
 }
 
-/* Estilo estandarizado para la descripción de todas las cartas */
 .project-card .description, .education-card .description, .contact-card .description, .skill-card .description, .education-item .description {
     color: var(--text-muted);
     margin-bottom: 1.5rem;
@@ -202,19 +194,17 @@ header nav a:hover, header nav a.active {
     font-size: 1.05rem;
 }
 
-/* Iconos para Skills */
 .skill-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
-    background-clip: text; /* Standard property added */
+    background-clip: text; 
     -webkit-text-fill-color: transparent;
     font-family: monospace;
     font-weight: bold;
 }
 
-/* Timeline (Experiencia) */
 .timeline-item {
     gap: 1.5rem;
     align-items: center;
@@ -240,7 +230,7 @@ header nav a:hover, header nav a.active {
     justify-content: center;
     padding: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    z-index: 2; /* Para asegurar que pase por encima de la línea */
+    z-index: 2;
 }
 
 .company-logo, .institution-logo {
@@ -283,6 +273,7 @@ header nav a:hover, header nav a.active {
     font-size: 1rem;
     position: relative;
     padding-left: 1.5rem;
+    text-align: justify;
 }
 
 .timeline-item li::before {
@@ -366,10 +357,8 @@ header nav a:hover, header nav a.active {
     margin-left: 45px; 
 }
 
-/* Contenedor de cada título/ayudantía */
 .education-item {
     position: relative;
-    /* Usamos padding en lugar de margin para poder dibujar la línea a través del espacio */
     padding-bottom: 2.5rem; 
 }
 
@@ -377,7 +366,6 @@ header nav a:hover, header nav a.active {
     padding-bottom: 0;
 }
 
-/* El puntito principal de la entrada */
 .education-item::before {
     content: '';
     position: absolute;
@@ -385,7 +373,7 @@ header nav a:hover, header nav a.active {
     top: 6px; 
     width: 14px;
     height: 14px;
-    background-color: var(--bg-card); /* Color sólido para que no se trasluzca la línea */
+    background-color: var(--bg-card);
     border: 2px solid var(--accent);
     border-radius: 50%;
     transform: translateX(-50%); 
@@ -393,17 +381,16 @@ header nav a:hover, header nav a.active {
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* La línea vertical que baja SOLAMENTE si no es el último entry */
 .education-item:not(:last-child)::after {
     content: '';
     position: absolute;
     left: -2.5rem;
-    top: 14px; /* Empieza un poquito debajo del punto actual */
-    bottom: -6px; /* Baja exactamente hasta encontrarse con el punto del siguiente item */
+    top: 14px;
+    bottom: -6px;
     width: 2px;
     background: rgba(139, 92, 246, 0.3);
     transform: translateX(-50%);
-    z-index: 1; /* Detrás del punto */
+    z-index: 1;
 }
 
 .education-item:hover::before {
@@ -445,15 +432,12 @@ header nav a:hover, header nav a.active {
     margin-bottom: 0;
 }
 
-
-/* Ajuste móvil extra */
 @media (max-width: 768px) {
     .education-header h3.institution-name {
         font-size: 1.3rem;
     }
 }
 
-/* Footer */
 .footer {
     background-color: #080b13;
     color: #6b7280;
@@ -463,7 +447,6 @@ header nav a:hover, header nav a.active {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Animaciones CSS controladas por JS */
 .reveal-element {
     opacity: 0;
     transform: translateY(30px);
@@ -475,7 +458,6 @@ header nav a:hover, header nav a.active {
     transform: translateY(0);
 }
 
-/* Responsive Extra */
 @media (max-width: 768px) {
     .hero h1 { font-size: 2.8rem; }
     header nav {

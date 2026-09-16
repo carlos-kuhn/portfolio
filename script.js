@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling con compensación exacta para el header fijo
     const headerHeight = document.querySelector('header').offsetHeight;
     
-    // Selecciona todos los enlaces internos que comiencen con #
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return; // Evitar errores con enlaces vacíos
+            if (targetId === '#') return;
             
             const targetSection = document.querySelector(targetId);
 
@@ -20,13 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sistema de animación por scroll con delays escalonados
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
-    // Preparamos los elementos añadiendo la clase base (incluye todas las cartas estandarizadas)
     const elementsToAnimate = document.querySelectorAll('.skill-card, .project-card, .education-card, .timeline-item, .contact-card');
     elementsToAnimate.forEach(el => el.classList.add('reveal-element'));
 
@@ -44,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     elementsToAnimate.forEach(el => fadeInObserver.observe(el));
 
-    // Active class updater optimizado
     let scrollTimeout;
     window.addEventListener('scroll', function() {
         if (scrollTimeout) {
